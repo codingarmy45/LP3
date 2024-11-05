@@ -1,4 +1,5 @@
 // Solidity version 0.8.0 or above is recommended for added security
+//SPDX-License-Identifier:UNLICENSED
 pragma solidity ^0.8.0;
 
 // Creating a contract named StudentData
