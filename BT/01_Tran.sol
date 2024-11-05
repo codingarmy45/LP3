@@ -1,23 +1,28 @@
-// Solidity program to retrieve address and balance of owner
-pragma solidity ^0.6.8;
+//SPDX-License-Identifier:UNLICENSED
+pragma solidity ^0.8.0;
+contract Bank{
+    address public accholder;
+    uint256 balance=0;
 
-// Creating a contract
-contract MyContract {
-    // Private state variable to store the owner's address
-    address payable private owner;
-
-    // Defining a constructor to set the owner as the address that deploys the contract
-    constructor() public {
-        owner = msg.sender;
+    constructor(){
+        accholder=msg.sender;
     }
 
-    // Function to get the address of the owner
-    function getOwner() public view returns (address) {
-        return owner;
+    function withdraw(uint256 amt) public payable{
+        require(balance >= amt,"You don't have enough balance");
+        require(msg.sender == accholder,"You are not the account owner.");
+        payable(msg.sender).transfer(amt);
+        balance -= amt;
     }
 
-    // Function to return the current balance of the owner's address
-    function getBalance() public view returns (uint256) {
-        return owner.balance;
+    function deposit()public payable{
+        require(msg.value > 0,"Deposit amount should be greater than 0.");
+        require(msg.sender == accholder,"You are not the account owner.");
+        balance += msg.value;
+    }
+
+    function showBalance()public view returns(uint){
+        require(msg.sender == accholder,"You are not the account owner.");
+        return balance;
     }
 }
